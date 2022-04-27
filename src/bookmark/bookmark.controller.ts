@@ -11,15 +11,19 @@ import {
   Patch,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
 import { BookmarkService } from './bookmark.service';
 import { CreateBookmarkDto, EditBookmarkByIdDto } from './dto';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import { TransformInterceptor } from './interceptors/transform-interceptor';
 
 @Controller('bookmarks')
 @UseGuards(JwtGuard)
+@UseInterceptors(LoggingInterceptor)
 export class BookmarkController {
   constructor(private bookmarkService: BookmarkService) {}
 
@@ -37,6 +41,7 @@ export class BookmarkController {
   }
 
   @Post()
+  @UseInterceptors(TransformInterceptor)
   createBookmark(
     @GetUser('id') userId: number,
     @Body() dto: CreateBookmarkDto,
