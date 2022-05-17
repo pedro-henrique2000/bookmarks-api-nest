@@ -3,9 +3,9 @@ import { Test } from '@nestjs/testing';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { AppModule } from '../src/app.module';
 import * as pactum from 'pactum';
-import { AuthDto } from 'src/auth/dto';
+import { AuthDto } from '../src/auth/dto';
 import { EditUserDto } from 'src/user/dto';
-import { CreateBookmarkDto, EditBookmarkByIdDto } from 'src/bookmark/dto';
+import { CreateBookmarkDto, EditBookmarkByIdDto } from '../src/bookmark/dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -168,7 +168,6 @@ describe('App e2e', () => {
           .withBody(dto)
           .expectBodyContains(dto.description)
           .expectBodyContains(dto.link)
-          .expectBodyContains(dto.title)
           .stores('bookmarkId', 'id');
       });
     });
